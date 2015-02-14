@@ -1,0 +1,4 @@
+Art - Logos, little icons
+Front End - make the website colorful
+Back End - Make the website actually do stuff!
+Database - Parse, all the Parse
