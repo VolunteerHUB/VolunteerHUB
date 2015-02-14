@@ -8,8 +8,7 @@ var router = express.Router();
 
 /* GET projects listing. */
 router.get('/', function(req, res, next) {
-  var query = parse.Query(Project);
-  query.
+  var query = new parse.Query(Project);
   query.limit(req.query.limit);
   query.skip(req.query.offset);
 
@@ -17,10 +16,10 @@ router.get('/', function(req, res, next) {
     success: function(results) {
       // TODO: Iterate over each result and add it to `projects` array.
 
-      res.render('projects/index', { title: 'Projects List', data: projects });
+      res.render('projects/index', { title: 'Project List', data: projects });
     },
     error: function(error) {
-      // TODO: Print an error to the console and show the 500.
+      // TODO: Print the error to the console and show the 500 error page.
     }
   });
 });
@@ -56,7 +55,7 @@ router.get('/:project_id/participants', function(req, res, next) {
       res.render('projects/participants', { title: 'Participant List', data: participants });
     },
     error: function(error) {
-      // TODO: Parse the error and show the 500 or 404 page.
+      // TODO: Parse the error and show the 500 error page.
     }
   });
 });
