@@ -1,0 +1,12 @@
+extends ../layout
+
+block content
+  div(class='panel panel-default')
+    table(class='table table-hover')
+      th Name
+      th Location
+      each user in data
+        a(href='/user/' + user.username)
+          tr
+            td user.name
+            td user.location

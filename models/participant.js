@@ -1,6 +1,6 @@
-var Parse = require('parse');
+var parse = require('../database');
 
-module.exports = Parse.object.extend("Particpant", {
+module.exports = parse.Object.extend("Particpant", {
   // Instance Properties
 }, {
   // Class Properties

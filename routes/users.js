@@ -1,4 +1,5 @@
 var express = require('express');
+var parse = require('../database');
 
 var User = require('../models/user');
 var Participant = require('../models/participant');
@@ -19,6 +20,8 @@ router.get('/', function(req, res, next) {
     },
     error: function(error) {
       // TODO: Print the error to the console and show the 500 error page.
+
+      res.render('index/error', { error: error });
     }
   });
 });
@@ -26,16 +29,18 @@ router.get('/', function(req, res, next) {
 /* GET single user. */
 router.get('/:username', function(req, res, next) {
   var query = new parse.Query(User);
-  query.equalTo("username", req.params.username);
+  query.equalTo("objectId", req.params.username);
 
   query.first({
-    success: function(results) {
-      // TODO: Parse the result.
+    success: function(result) {
+      var user = result.toJSON();
 
-      res.render('users/detail', { title: user.display_name, data: user });
+      res.render('users/detail', { title: user.display_name, user: user });
     },
     error: function(error) {
       // TODO: Parse the error and show the 500 or 404 error page.
+
+      res.render('index/error', { error: error });
     }
   });
 });
@@ -53,6 +58,8 @@ router.get('/:username/participating', function(req, res, next) {
     },
     error: function(error) {
       // TODO: Parse the error and show the 500 error page.
+
+      res.render('index/error', { error: error });
     }
   });
 });
@@ -72,6 +79,8 @@ router.get('/:username/hosting', function(req, res, next) {
     },
     error: function(error) {
       // TODO: Parse the error and show the 500 error page.
+
+      res.render('index/error', { error: error });
     }
   });
 });

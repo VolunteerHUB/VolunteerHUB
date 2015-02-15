@@ -1,8 +1,8 @@
 var express = require('express');
-var parse = require('../parse');
+var parse = require('../database');
 
-var Project = require('../model/project');
-var Participant = require('../model/participant');
+var Project = require('../models/project');
+var Participant = require('../models/participant');
 
 var router = express.Router();
 
@@ -14,36 +14,44 @@ router.get('/', function(req, res, next) {
 
   query.find({
     success: function(results) {
-      // TODO: Iterate over each result and add it to `projects` array.
+      var projects = Array();
+
+      for (var i = 0; i < results.length; i++) {
+        projects[i] = results[i].toJSON();
+      }
 
       res.render('projects/index', { title: 'Project List', data: projects });
     },
     error: function(error) {
       // TODO: Print the error to the console and show the 500 error page.
+
+      res.render('index/error', { error: error });
     }
   });
 });
 
 /* GET single project. */
 router.get('/:project_id', function(req, res, next) {
-  var query = parse.Query(Project);
-  query.equalTo("project_id", req.params.project_id);
+  var query = new parse.Query(Project);
+  query.equalTo("objectId", req.params.project_id);
 
   query.first({
     success: function(result) {
-      // TODO: Parse the result.
+      var project = result.toJSON();
 
-      res.render('projects/detail', { title: project.name, data: project });
+      res.render('projects/detail', { title: project.name, project: project });
     },
     error: function(error) {
       // TODO: Parse the error and show the 500 or 404 page.
+
+      res.render('index/error', { error: error });
     }
   });
 });
 
 /* GET single project's participants. */
 router.get('/:project_id/participants', function(req, res, next) {
-  var query = parse.Query(Participant);
+  var query = new parse.Query(Participant);
   query.equalTo("project_id", req.params.project_id);
   query.limit(req.query.limit);
   query.skip(req.query.offset);
@@ -56,6 +64,8 @@ router.get('/:project_id/participants', function(req, res, next) {
     },
     error: function(error) {
       // TODO: Parse the error and show the 500 error page.
+
+      res.render('index/error', { error: error });
     }
   });
 });
