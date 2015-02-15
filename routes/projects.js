@@ -58,7 +58,11 @@ router.get('/:project_id/participants', function(req, res, next) {
 
   query.find({
     success: function(results) {
-      // TODO: Iterate over each result and add it to the `participants` array.
+      var participants = Array();
+
+      for (var i = 0; i < results.length; i++) {
+        participants[i] = results[i].toJSON();
+      }
 
       res.render('projects/participants', { title: 'Participant List', data: participants });
     },
