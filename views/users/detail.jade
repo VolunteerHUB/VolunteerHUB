@@ -6,21 +6,28 @@ block content
       div(class='row')
         div(class='col-sm-12')
           h3 #{user.displayName}
-            small (#{user.username})
+            small &nbsp;(#{user.username})
     div(class='panel-body')
       div(class='row')
         div(class='col-sm-12')
           div(class='col-sm-12')
-            p= user.bio
+            p
+              em= user.bio
       br
       div(class='row')
-        div(class='col-sm-5')
+        div(class='col-sm-6')
           div(class='col-sm-3')
             p Location:
           div(class='col-sm-9')
             p= user.location
+        div(class='col-sm-6')
+          div(class='col-sm-3')
+            p Website:
+          div(class='col-sm-9')
+            a(href='#{user.website}') #{user.website}
+      br
       div(class='row')
         div(class='col-sm-6')
-          a(class='btn btn-primary', href='/user/#{user.username}/participating') Particpating
+          a(class='col-sm-4 col-sm-offset-4 btn btn-primary', href='/user/#{user.username}/participating') Particpated
         div(class='col-sm-6')
-          a(class='btn btn-primary', href='/user/#{user.username}/hosting') Hosting
+          a(class='col-sm-4 col-sm-offset-4 btn btn-primary', href='/user/#{user.username}/hosting') Hosted
