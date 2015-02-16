@@ -1,0 +1,23 @@
+extends ../layout
+
+block content
+  h1 Login
+  
+  form(method='POST', action='/register', class='form-horizontal')
+    div(class='form-group')
+      label(class='col-sm-2 control-label') Username
+      div(class='col-sm-5')
+        input(type='text', class='form-control', id='username', name='username', placeholder='Username')
+    div(class='form-group')
+      label(class='col-sm-2 control-label') E-Mail
+      div(class='col-sm-5')
+        input(type='text', class='form-control', id='email', name='email', placeholder='E-Mail')
+    //- TODO: Add password verification.
+    div(class='form-group')
+      label(class='col-sm-2 control-label') Password
+      div(class='col-sm-5')
+        input(type='password', class='form-control', id='password' name='password', placeholder='Password')
+    div(class='form-group')
+      div(class='col-sm-offset-2 col-sm-8')
+        button(type='submit', class='btn btn-primary') Login
+      
