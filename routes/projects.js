@@ -20,12 +20,12 @@ router.get('/', function(req, res, next) {
         projects[i] = results[i].toJSON();
       }
 
-      res.render('projects/index', { title: 'Project List', data: projects });
+      res.render('projects/index', { title: 'Project Directory | VolunteerHUB', data: projects });
     },
     error: function(error) {
       // TODO: Print the error to the console and show the 500 error page.
 
-      res.render('index/error', { error: error });
+      res.render('index/error', { title: 'Error | VolunteerHUB', error: error });
     }
   });
 });

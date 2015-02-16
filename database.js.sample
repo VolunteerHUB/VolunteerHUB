@@ -1,0 +1,7 @@
+var Parse = require('parse').Parse;
+
+Parse.initialize("APPLICATION_ID",
+                 "JAVASCRIPT_ID",
+                 "MASTER_KEY");
+
+module.exports = Parse;
