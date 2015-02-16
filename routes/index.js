@@ -42,6 +42,11 @@ router.post('/login', function(req, res, next) {
   });
 });
 
+router.get('/logout', function(req, res, next) {
+  parse.User.logOut();
+  res.redirect('/');
+});
+
 router.get('/register', function(req, res, next) {
   if (parse.User.current()) {
     // TODO: Set header message to show that the user is already logged in.
