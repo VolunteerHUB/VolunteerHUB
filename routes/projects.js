@@ -4,7 +4,8 @@ var parse = require('../database');
 var router = express.Router();
 
 router.get('/', function(req, res, next) {
-  var query = new parse.Query("Project");
+  var query = new parse.Query('Project');
+  query.descending('createdAt');
   query.limit(req.query.limit);
   query.skip(req.query.offset);
 
@@ -19,8 +20,6 @@ router.get('/', function(req, res, next) {
       res.render('projects/index', { title: 'Project Directory | VolunteerHUB', data: projects });
     },
     error: function(error) {
-      // TODO: Print the error to the console and show the 500 error page.
-
       res.render('index/error', { title: 'Error | VolunteerHUB', error: error });
     }
   });
@@ -39,13 +38,9 @@ router.post('/create', function(req, res, next) {
   // TODO
 });
 
-router.get('/:project_id/setup', function(req, res, next) {
-  // TODO
-});
-
 router.get('/:project_id', function(req, res, next) {
-  var query = new parse.Query("Project");
-  query.equalTo("objectId", req.params.project_id);
+  var query = new parse.Query('Project');
+  query.equalTo('objectId', req.params.project_id);
 
   query.first({
     success: function(result) {
@@ -54,8 +49,6 @@ router.get('/:project_id', function(req, res, next) {
       res.render('projects/detail', { title: project.name + ' | VolunteerHUB', project: project });
     },
     error: function(error) {
-      // TODO: Parse the error and show the 500 or 404 page.
-
       res.render('index/error', { error: error });
     }
   });
