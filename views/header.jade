@@ -15,8 +15,16 @@ nav(class='navbar navbar-inverse', role='navigation')
           a(href='/user') Users
         li
           a(href='/project') Projects
-      ul(class='nav navbar-nav navbar-right')
         li
           a(href='/about') About
-        //- li
-        //- 	a(href='/faq') FAQ
+      ul(class='nav navbar-nav navbar-right')
+        if user
+          li
+            a(href='/user/#{user.username}') #{user.displayName}
+          li
+            a(href='/logout') Logout
+        else
+          li
+            a(href='/login') Login
+          li
+            a(href='/register') Register

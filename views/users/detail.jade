@@ -1,5 +1,6 @@
 extends ../layout
 
+//- TODO: Make this GitHub looking (user info on left, other stuff on right).
 block content
   div(class='panel panel-default')
     div(class='panel-heading')
@@ -11,8 +12,9 @@ block content
       div(class='row')
         div(class='col-sm-12')
           div(class='col-sm-12')
+            p Bio:
             p
-              em= user.bio
+              em= user.bioraphy
       br
       div(class='row')
         div(class='col-sm-6')

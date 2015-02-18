@@ -30,6 +30,21 @@ router.get('/', function(req, res, next) {
   });
 });
 
+/* GET the new project creation page. */
+router.get('/create', function(req, res, next) {
+  if (parse.User.current()) {
+    res.render('projects/create', { title: 'Create New Project | VolunteerHUB' });
+  } else {
+    // TODO: Add return parameter.
+    res.redirect('/login');
+  }
+});
+
+/* POST the new project. */
+router.post('/create', function(req, res, next) {
+  // TODO
+});
+
 /* GET single project. */
 router.get('/:project_id', function(req, res, next) {
   var query = new parse.Query(Project);
@@ -39,7 +54,7 @@ router.get('/:project_id', function(req, res, next) {
     success: function(result) {
       var project = result.toJSON();
 
-      res.render('projects/detail', { title: project.name, project: project });
+      res.render('projects/detail', { title: project.name + ' | VolunteerHUB', project: project });
     },
     error: function(error) {
       // TODO: Parse the error and show the 500 or 404 page.
