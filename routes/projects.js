@@ -1,14 +1,10 @@
 var express = require('express');
 var parse = require('../database');
 
-var Project = require('../models/project');
-var Participant = require('../models/participant');
-
 var router = express.Router();
 
-/* GET projects listing. */
 router.get('/', function(req, res, next) {
-  var query = new parse.Query(Project);
+  var query = new parse.Query("Project");
   query.limit(req.query.limit);
   query.skip(req.query.offset);
 
@@ -30,7 +26,6 @@ router.get('/', function(req, res, next) {
   });
 });
 
-/* GET the new project creation page. */
 router.get('/create', function(req, res, next) {
   if (parse.User.current()) {
     res.render('projects/create', { title: 'Create New Project | VolunteerHUB' });
@@ -40,14 +35,16 @@ router.get('/create', function(req, res, next) {
   }
 });
 
-/* POST the new project. */
 router.post('/create', function(req, res, next) {
   // TODO
 });
 
-/* GET single project. */
+router.get('/:project_id/setup', function(req, res, next) {
+  // TODO
+});
+
 router.get('/:project_id', function(req, res, next) {
-  var query = new parse.Query(Project);
+  var query = new parse.Query("Project");
   query.equalTo("objectId", req.params.project_id);
 
   query.first({
@@ -64,29 +61,21 @@ router.get('/:project_id', function(req, res, next) {
   });
 });
 
-/* GET single project's participants. */
 router.get('/:project_id/participants', function(req, res, next) {
-  var query = new parse.Query(Participant);
-  query.equalTo("project_id", req.params.project_id);
-  query.limit(req.query.limit);
-  query.skip(req.query.offset);
+  // TODO
+});
 
-  query.find({
-    success: function(results) {
-      var participants = Array();
+/* GET a project's hosts. */
+router.get('/:project_id/hosts', function(req, res, next) {
+  // TODO
+});
 
-      for (var i = 0; i < results.length; i++) {
-        participants[i] = results[i].toJSON();
-      }
+router.get('/:project_id/edit', function(req, res, next) {
+  // TODO
+});
 
-      res.render('projects/participants', { title: 'Participant List', data: participants });
-    },
-    error: function(error) {
-      // TODO: Parse the error and show the 500 error page.
-
-      res.render('index/error', { error: error });
-    }
-  });
+router.post('/:project_id/edit', function(req, res, next) {
+  // TODO
 });
 
 module.exports = router;
