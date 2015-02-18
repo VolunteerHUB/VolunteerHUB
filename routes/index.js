@@ -58,7 +58,8 @@ router.get('/register', function(req, res, next) {
 
 router.post('/register', function(req, res, next) {
   parse.User.signUp(req.body.username, req.body.password, {
-    email: req.body.email
+    email: req.body.email,
+    displayName: req.body.username
   }, {
     success: function(user) {
       // TODO: Set header message to show that the user is already logged in.

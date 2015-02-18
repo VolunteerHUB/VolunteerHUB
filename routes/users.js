@@ -9,7 +9,8 @@ var router = express.Router();
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-  var query = new parse.Query(User);
+  var query = new parse.Query(parse.User);
+  query.ascending("createdAt");
   query.limit(req.query.limit);
   query.skip(req.query.offset);
 
@@ -23,7 +24,7 @@ router.get('/', function(req, res, next) {
         user[i] = results[i].toJSON();
       }
 
-      res.render('users/index', { title: 'User List', data: user });
+      res.render('users/index', { title: 'User List | VolunteerHUB', data: user });
     },
     error: function(error) {
       res.render('index/error', { error: error });
@@ -33,14 +34,14 @@ router.get('/', function(req, res, next) {
 
 /* GET single user. */
 router.get('/:username', function(req, res, next) {
-  var query = new parse.Query(User);
+  var query = new parse.Query(parse.User);
   query.equalTo("username", req.params.username);
 
   query.first({
     success: function(result) {
       var user = result.toJSON();
 
-      res.render('users/detail', { title: user.displayName, user: user });
+      res.render('users/detail', { title: user.displayName + ' | VolunteerHUB', user: user });
     },
     error: function(error) {
       res.render('index/error', { error: error });
@@ -97,7 +98,7 @@ router.get('/:username/hosting', function(req, res, next) {
         projects[i] = results[i].toJSON();
       }
 
-      res.render('users/hosting', { title: 'Hosting List', data: projects });
+      res.render('users/hosting', { title: 'Hosting List | VolunteerHUB', data: projects });
     },
     error: function(error) {
       res.render('index/error', { error: error });
