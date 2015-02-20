@@ -3,27 +3,27 @@ var parse = require('../database');
 
 var router = express.Router();
 
-router.get('/', function(req, res, next) {
-  var query = new parse.Query('Group');
-  query.descending('createdAt');
-  query.limit(req.query.limit);
-  query.skip(req.query.offset);
-
-  query.find({
-    success: function(results) {
-      var groups = Array();
-
-      for (var i = 0; i < results.length; i++) {
-        groups[i] = results[i].toJSON();
-      }
-
-      res.render('group/index', { title: 'Group Directory | VolunteerHUB', data: groups });
-    },
-    error: function(error) {
-      res.render('index/error', { title: 'Error | VolunteerHUB', error: error });
-    }
-  });
-});
+// router.get('/', function(req, res, next) {
+//   var query = new parse.Query('Group');
+//   query.descending('createdAt');
+//   query.limit(req.query.limit);
+//   query.skip(req.query.offset);
+//
+//   query.find({
+//     success: function(results) {
+//       var groups = Array();
+//
+//       for (var i = 0; i < results.length; i++) {
+//         groups[i] = results[i].toJSON();
+//       }
+//
+//       res.render('group/index', { title: 'Group Directory | VolunteerHUB', data: groups });
+//     },
+//     error: function(error) {
+//       res.render('index/error', { title: 'Error | VolunteerHUB', error: error });
+//     }
+//   });
+// });
 
 router.get('/create', function(req, res, next) {
   if (parse.User.current()) {
