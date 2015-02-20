@@ -3,27 +3,27 @@ var parse = require('../database');
 
 var router = express.Router();
 
-router.get('/', function(req, res, next) {
-  var query = new parse.Query(parse.User);
-  query.descending('createdAt');
-  query.limit(req.query.limit);
-  query.skip(req.query.offset);
-
-  query.find({
-    success: function(results) {
-      var user = Array();
-
-      for (var i = 0; i < results.length; i++) {
-        user[i] = results[i].toJSON();
-      }
-
-      res.render('users/index', { title: 'User List | VolunteerHUB', data: user });
-    },
-    error: function(error) {
-      res.render('index/error', { error: error });
-    }
-  });
-});
+// router.get('/', function(req, res, next) {
+//   var query = new parse.Query(parse.User);
+//   query.descending('createdAt');
+//   query.limit(req.query.limit);
+//   query.skip(req.query.offset);
+//
+//   query.find({
+//     success: function(results) {
+//       var user = Array();
+//
+//       for (var i = 0; i < results.length; i++) {
+//         user[i] = results[i].toJSON();
+//       }
+//
+//       res.render('users/index', { title: 'User List | VolunteerHUB', data: user });
+//     },
+//     error: function(error) {
+//       res.render('index/error', { error: error });
+//     }
+//   });
+// });
 
 router.get('/:username', function(req, res, next) {
   var query = new parse.Query(parse.User);
@@ -103,6 +103,10 @@ router.get('/:username/hosting', function(req, res, next) {
       res.render('index/error', { error: error });
     }
   });
+});
+
+router.get('/:username/groups', function(req, res, next) {
+  // TODO
 });
 
 router.get('/:username/edit', function(req, res, next) {
