@@ -13,8 +13,11 @@ nav(class='navbar navbar-inverse', role='navigation')
       ul(class='nav navbar-nav navbar-left')
         //- li
         //-   a(href='/user') Users
+        if user
+          li
+            a(href='/project/create') Create
         li
-          a(href='/project') Projects
+          a(href='/project') Project
         li
           a(href='/about') About
       ul(class='nav navbar-nav navbar-right')
