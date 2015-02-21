@@ -17,7 +17,11 @@ router.get('/', function(req, res, next) {
         projects[i] = results[i].toJSON();
       }
 
-      res.render('projects/index', { title: 'Project Directory | VolunteerHUB', data: projects });
+      if (parse.User.current()) {
+        res.render('projects/index', { title: 'Project Directory | VolunteerHUB', data: projects, user: parse.User.current().toJSON() });
+      } else {
+        res.render('projects/index', { title: 'Project Directory | VolunteerHUB', data: projects });
+      }
     },
     error: function(error) {
       res.render('index/error', { title: 'Error | VolunteerHUB', error: error });
@@ -27,7 +31,7 @@ router.get('/', function(req, res, next) {
 
 router.get('/create', function(req, res, next) {
   if (parse.User.current()) {
-    res.render('projects/create', { title: 'Create New Project | VolunteerHUB' });
+    res.render('projects/create', { title: 'Create New Project | VolunteerHUB', user: parse.User.current().toJSON() });
   } else {
     // TODO: Add return parameter.
     res.redirect('/login');
@@ -35,7 +39,7 @@ router.get('/create', function(req, res, next) {
 });
 
 router.post('/create', function(req, res, next) {
-  // TODO
+  //res.send("Sorry, this page isn't working yet...");
 });
 
 router.get('/:project_id', function(req, res, next) {

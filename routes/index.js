@@ -32,7 +32,6 @@ router.get('/login', function(req, res, next) {
 router.post('/login', function(req, res, next) {
   parse.User.logIn(req.body.username, req.body.password, {
     success: function(user) {
-      // TODO: Set header message to welcome user.
       res.redirect('/user/' + user.getUsername());
     },
     error: function(user, error) {

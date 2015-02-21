@@ -4,32 +4,58 @@ block content
   h1 Add New Project
   
   form(method='POST', action='/project/create', class='form-horizontal')
+    
+    //- Project Name
     div(class='form-group')
       label(class='col-sm-3 control-label') Name
       div(class='col-sm-6')
-        input(type='text', class='form-control', id='name', name='name', placeholder='Example Project')
+        input(type='text', class='form-control', id='name', name='name', placeholder='Project Name')
+    
+    //- Brief Description
     div(class='form-group')
       label(class='col-sm-3 control-label') Brief Description
       div(class='col-sm-6')
-        textarea(class='form-control', id='brief', name='brief', placeholder='Example Brief Description', rows='2')
+        textarea(class='form-control', id='brief', name='brief', placeholder='Brief Description', rows='2')
+    
+    //- Detailed Description
     div(class='form-group')
       label(class='col-sm-3 control-label') Detailed Description
       div(class='col-sm-6')
-        textarea(class='form-control', id='detail', name='detail', placeholder='Example Detailed Description', rows='5')
+        textarea(class='form-control', id='detail', name='detail', placeholder='Detailed Description', rows='5')
+    
+    //- Date
     div(class='form-group')
-      label(class='col-sm-3 control-label') Date & Time
+      label(class='col-sm-3 control-label') Date
       div(class='col-sm-6')
-        div(class='input-group', id='datetimepicker')
-          input(type='text', class='form-control', id='date', name='date', placeholder='Example Date & Time')
+        div(class='input-group', id='datepicker')
+          input(type='text', class='form-control', id='date', name='date', placeholder='Date')
           span(class='input-group-addon')
             span(class='glyphicon glyphicon-calendar')
+              
+    //- Time
+    div(class='form-group')
+      label(class='col-sm-3 control-label') Time
+      div(class='col-sm-3')
+        div(class='input-group', id='starttimepicker')
+          input(type='text', class='form-control', id='starttime', name='starttime', placeholder='Start Time')
+          span(class='input-group-addon')
+            span(class='glyphicon glyphicon-time')
+      div(class='col-sm-3')
+        div(class='input-group', id='endtimepicker')
+          input(type='text', class='form-control', id='endtime', name='endtime', placeholder='End Time')
+          span(class='input-group-addon')
+            span(class='glyphicon glyphicon-time')
+    
+    //- Location
     div(class='form-group')
       label(class='col-sm-3 control-label') Location
       div(class='col-sm-6')
         div(class='input-group', id='locationpicker', data-toggle='modal', data-target='map_modal')
-          input(type='text', class='form-control', id='location', name='location', placeholder='Example Location')
+          input(type='text', class='form-control', id='location', name='location', placeholder='Location')
           span(class='input-group-addon', onclick='$("#map_modal").modal("show")')
             span(class='glyphicon glyphicon-map-marker')
+    
+    //- Submit Button
     div(class='form-group')
       div(class='col-sm-offset-3 col-sm-8')
         button(type='submit', class='btn btn-primary') Create Project
@@ -43,12 +69,22 @@ block content
             span &times;
           h4(class='modal-title') Choose Project Location
         div(class='modal-body')
-          iframe(height='450em', width='850em', frameborder='0', scrolling='no', src='/utils/map')
+          iframe(height='450em', width='850em', frameborder='0', scrolling='no', id="loc_map", src='/utils/map')
+        div(class='modal-footer')
+          button(type='button', class='btn btn-primary', id='getLoc') Select Location
         
   // Date & Time
   script(src='//cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.js')
   script(src='//cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/v4.0.0/src/js/bootstrap-datetimepicker.js')
   script.
     $(function () {
-      $('#datetimepicker').datetimepicker();
+      $('#datepicker').datetimepicker({ format: 'MM/DD/YYYY' });
+      $("#starttimepicker").datetimepicker({ format: 'hh:mm a' });
+      $("#endtimepicker").datetimepicker({ format: 'hh:mm a' });
+    });
+    
+    $("#getLoc").click(function() {
+      var loc = $("#loc_map").contents().find("#location_name").val();
+      $("#location").val(loc);
+      $("#map_modal").modal('hide');
     });
