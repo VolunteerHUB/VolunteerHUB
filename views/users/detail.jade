@@ -1,35 +1,37 @@
 extends ../layout
 
-//- TODO: Make this GitHub looking (user info on left, other stuff on right).
+//- TODO: Make this GitHub looking (data info on left, other stuff on right).
 block content
   div(class='panel panel-default')
     div(class='panel-heading')
       div(class='row')
         div(class='col-sm-12')
-          h3 #{user.displayName}
-            small &nbsp;(#{user.username})
+          h3 #{data.displayName}
+            small &nbsp;(#{data.username})
     div(class='panel-body')
       div(class='row')
         div(class='col-sm-12')
           div(class='col-sm-12')
             p Bio:
             p
-              em= user.bioraphy
+              em= data.bioraphy
       br
       div(class='row')
         div(class='col-sm-6')
           div(class='col-sm-3')
             p Location:
           div(class='col-sm-9')
-            p= user.location
+            p= data.location
         div(class='col-sm-6')
           div(class='col-sm-3')
             p Website:
           div(class='col-sm-9')
-            a(href='#{user.website}', target='_blank') #{user.website}
+            a(href='#{data.website}', target='_blank') #{data.website}
       br
       div(class='row')
-        div(class='col-sm-6')
-          a(class='col-sm-4 col-sm-offset-4 btn btn-primary', href='/user/#{user.username}/participating') Particpated
-        div(class='col-sm-6')
-          a(class='col-sm-4 col-sm-offset-4 btn btn-primary', href='/user/#{user.username}/hosting') Hosted
+        div(class='col-sm-4')
+          a(class='col-sm-6 col-sm-offset-3 btn btn-primary', href='/user/#{data.username}/participating') Particpated
+        div(class='col-sm-4')
+          a(class='col-sm-6 col-sm-offset-3 btn btn-primary', href='/user/#{data.username}/hosting') Hosted
+        div(class='col-sm-4')
+          a(class='col-sm-6 col-sm-offset-3 btn btn-primary', href='/user/#{data.username}/groups') Groups

@@ -3,36 +3,43 @@ var parse = require('../database');
 
 var router = express.Router();
 
-/* GET home page. */
 router.get('/', function(req, res, next) {
-  if (parse.User.current()) {
-    res.render('index/index', { title: 'VolunteerHUB', user: parse.User.current().toJSON() });
-  } else {
-    res.render('index/index', { title: 'VolunteerHUB', user: null });
-  }
+  res.render('index/index', {
+    title: 'VolunteerHUB',
+    user: req.cookies.user
+  });
 });
 
 router.get('/about', function(req, res, next) {
-  if (parse.User.current()) {
-    res.render('index/about', { title: 'About | VolunteerHUB', user: parse.User.current().toJSON() });
-  } else {
-    res.render('index/about', { title: 'About | VolunteerHUB', user: null });
-  }
+  res.render('index/about', {
+    title: 'About | VolunteerHUB',
+    user: req.cookies.user
+  });
 });
 
 router.get('/login', function(req, res, next) {
-  if (parse.User.current()) {
-    // TODO: Send header data to show that the user is already logged in.
-    res.redirect('/user/' + parse.User.current().getUsername());
+  if (req.cookies.user) {
+    // TODO: Set message to show that the user is already logged in.
+    // TODO: Add callback...
+    res.redirect('/user/' + req.cookies.user.username);
   } else {
-    res.render('index/login', { title: 'Login | VolunteerHUB' });
+    res.render('index/login', {
+      title: 'Login | VoluteerHUB'
+    });
   }
 });
 
 router.post('/login', function(req, res, next) {
   parse.User.logIn(req.body.username, req.body.password, {
     success: function(user) {
-      res.redirect('/user/' + user.getUsername());
+      // TODO: Set welcome message.
+      // TODO: Add callback...
+      var usr = user.toJSON();
+      res.cookie('user', {
+        username: usr.username,
+        displayName: usr.displayName
+      });
+      res.redirect('/user/' + usr.username);
     },
     error: function(user, error) {
       // TODO: Set header message to warn user about incorrect login.
@@ -43,15 +50,18 @@ router.post('/login', function(req, res, next) {
 
 router.get('/logout', function(req, res, next) {
   parse.User.logOut();
+  res.clearCookie('user');
   res.redirect('/');
 });
 
 router.get('/register', function(req, res, next) {
-  if (parse.User.current()) {
-    // TODO: Set header message to show that the user is already logged in.
-    res.redirect('/user/' + parse.User.current().getUsername());
+  if (req.cookies.user) {
+    // TODO: Set message to show that the user is already logged in.
+    res.redirect('/user/' + req.cookies.user.username);
   } else {
-    res.render('index/register', { title: 'Register | VolunteerHUB' });
+    res.render('index/register', {
+      title: 'Register | VolunteerHUB'
+    });
   }
 });
 
@@ -62,6 +72,11 @@ router.post('/register', function(req, res, next) {
   }, {
     success: function(user) {
       // TODO: Set header message to show that the user is already logged in.
+      var usr = user.toJSON();
+      res.cookie('user', {
+        username: usr.username,
+        displayName: usr.displayName
+      });
       res.redirect('/user/' + user.getUsername());
     },
     error: function(user, error) {

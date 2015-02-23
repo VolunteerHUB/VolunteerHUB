@@ -4,6 +4,7 @@ var parse = require('../database');
 var router = express.Router();
 
 router.get('/', function(req, res, next) {
+  // TODO: Add nearby search functionality.
   var query = new parse.Query('Project');
   query.descending('createdAt');
   query.limit(req.query.limit);
@@ -17,21 +18,28 @@ router.get('/', function(req, res, next) {
         projects[i] = results[i].toJSON();
       }
 
-      if (parse.User.current()) {
-        res.render('projects/index', { title: 'Project Directory | VolunteerHUB', data: projects, user: parse.User.current().toJSON() });
-      } else {
-        res.render('projects/index', { title: 'Project Directory | VolunteerHUB', data: projects });
-      }
+      res.render('projects/index', {
+        title: 'Project Directory | VolunteerHUB',
+        data: projects,
+        user: req.cookies.user
+      });
     },
     error: function(error) {
-      res.render('index/error', { title: 'Error | VolunteerHUB', error: error });
+      res.render('index/error', {
+        title: 'Error | VolunteerHUB',
+        error: error,
+        user: req.cookies.user
+      });
     }
   });
 });
 
 router.get('/create', function(req, res, next) {
-  if (parse.User.current()) {
-    res.render('projects/create', { title: 'Create New Project | VolunteerHUB', user: parse.User.current().toJSON() });
+  if (req.cookies.user) {
+    res.render('projects/create', {
+      title: 'Create New Project | VolunteerHUB',
+      user: req.cookies.user
+    });
   } else {
     // TODO: Add return parameter.
     res.redirect('/login');
@@ -50,10 +58,17 @@ router.get('/:project_id', function(req, res, next) {
     success: function(result) {
       var project = result.toJSON();
 
-      res.render('projects/detail', { title: project.name + ' | VolunteerHUB', project: project });
+      res.render('projects/detail', {
+        title: project.name + ' | VolunteerHUB',
+        project: project,
+        user: req.cookies.user
+      });
     },
     error: function(error) {
-      res.render('index/error', { error: error });
+      res.render('index/error', {
+        error: error,
+        user: req.cookies.user
+      });
     }
   });
 });
@@ -62,7 +77,6 @@ router.get('/:project_id/participants', function(req, res, next) {
   // TODO
 });
 
-/* GET a project's hosts. */
 router.get('/:project_id/hosts', function(req, res, next) {
   // TODO
 });

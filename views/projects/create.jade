@@ -23,14 +23,29 @@ block content
       div(class='col-sm-6')
         textarea(class='form-control', id='detail', name='detail', placeholder='Detailed Description', rows='5')
     
+    br
+    
     //- Date
     div(class='form-group')
-      label(class='col-sm-3 control-label') Date
+      label(class='col-sm-3 control-label') Multi-Day Event
       div(class='col-sm-6')
-        div(class='input-group', id='datepicker')
-          input(type='text', class='form-control', id='date', name='date', placeholder='Date')
+        div(class='checkbox')
+          label
+            input(type='checkbox', id='multiday', value='multiday')
+    div(class='form-group')
+      label(class='col-sm-3 control-label', id="startdatelabel") Date
+      div(class='col-sm-3')
+        div(class='input-group', id='startdatepicker')
+          input(type='text', class='form-control', id='startdate', name='startdate', placeholder='Date')
           span(class='input-group-addon')
             span(class='glyphicon glyphicon-calendar')
+      div(class='col-sm-3')
+        div(class='input-group', id='enddatepicker')
+          input(type='text', class='form-control', id='enddate', name='enddate', placeholder='End Date')
+          span(class='input-group-addon')
+            span(class='glyphicon glyphicon-calendar')
+    
+    br
               
     //- Time
     div(class='form-group')
@@ -45,6 +60,8 @@ block content
           input(type='text', class='form-control', id='endtime', name='endtime', placeholder='End Time')
           span(class='input-group-addon')
             span(class='glyphicon glyphicon-time')
+    
+    br
     
     //- Location
     div(class='form-group')
@@ -78,13 +95,27 @@ block content
   script(src='//cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/v4.0.0/src/js/bootstrap-datetimepicker.js')
   script.
     $(function () {
-      $('#datepicker').datetimepicker({ format: 'MM/DD/YYYY' });
+      $('#startdatepicker').datetimepicker({ format: 'MM/DD/YYYY' });
+      $('#enddatepicker').datetimepicker({ format: 'MM/DD/YYYY' });
       $("#starttimepicker").datetimepicker({ format: 'hh:mm a' });
       $("#endtimepicker").datetimepicker({ format: 'hh:mm a' });
+      $("#enddate").attr("disabled", true);
     });
     
     $("#getLoc").click(function() {
       var loc = $("#loc_map").contents().find("#location_name").val();
       $("#location").val(loc);
       $("#map_modal").modal('hide');
+    });
+    
+    $("#multiday").click(function() {
+      if ($("#multiday").prop('checked')) {
+        // TODO: Add "End Date" field.
+        $("#startdate").attr("placeholder", "Start Date");
+        $("#enddate").attr("disabled", false);
+      } else {
+        // TODO: Remove "End Date" field.
+        $("#startdate").attr("placeholder", "Date");
+        $("#enddate").attr("disabled", true);
+      }
     });
