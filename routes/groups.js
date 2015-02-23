@@ -3,28 +3,6 @@ var parse = require('../database');
 
 var router = express.Router();
 
-// router.get('/', function(req, res, next) {
-//   var query = new parse.Query('Group');
-//   query.descending('createdAt');
-//   query.limit(req.query.limit);
-//   query.skip(req.query.offset);
-//
-//   query.find({
-//     success: function(results) {
-//       var groups = Array();
-//
-//       for (var i = 0; i < results.length; i++) {
-//         groups[i] = results[i].toJSON();
-//       }
-//
-//       res.render('group/index', { title: 'Group Directory | VolunteerHUB', data: groups });
-//     },
-//     error: function(error) {
-//       res.render('index/error', { title: 'Error | VolunteerHUB', error: error });
-//     }
-//   });
-// });
-
 router.get('/create', function(req, res, next) {
   if (parse.User.current()) {
     res.render('groups/create', { title: 'Create New Group | VolunteerHUB' });
@@ -46,10 +24,17 @@ router.get('/:group_name', function(req, res, next) {
     success: function(result) {
       var group = result.toJSON();
 
-      res.render('groups/detail', { title: group.name + ' | VolunteerHUB', group: group });
+      res.render('groups/detail', {
+        title: group.name + ' | VolunteerHUB',
+        group: group,
+        user: req.cookies.user
+      });
     },
     error: function(error) {
-      res.render('index/error', { error: error });
+      res.render('index/error', {
+        error: error,
+        user: req.cookies.user
+      });
     }
   });
 });
@@ -73,15 +58,25 @@ router.get('/:group_name/members', function(req, res, next) {
             members[i] = results[i].toJSON();
           }
 
-          res.render('groups/members', { title: 'Member List | VolunteerHUB', members: members });
+          res.render('groups/members', {
+            title: 'Member List | VolunteerHUB',
+            members: members,
+            user: req.cookies.user
+          });
         },
         error: function(error) {
-          res.render('index/error', { error: error });
+          res.render('index/error', {
+            error: error,
+            user: req.cookies.user
+          });
         }
       });
     },
     error: function(error) {
-      res.render('index/error', { error: error });
+      res.render('index/error', {
+        error: error,
+        user: req.cookies.user
+      });
     }
   });
 });
@@ -105,15 +100,25 @@ router.get('/:group_name/hosting', function(req, res, next) {
             members[i] = results[i].toJSON();
           }
 
-          res.render('groups/members', { title: 'Hosted Projects | VolunteerHUB', members: members });
+          res.render('groups/members', {
+            title: 'Hosted Projects | VolunteerHUB',
+            members: members,
+            user: req.cookies.user
+          });
         },
         error: function(error) {
-          res.render('index/error', { error: error });
+          res.render('index/error', {
+            error: error,
+            user: req.cookies.user
+          });
         }
       });
     },
     error: function(error) {
-      res.render('index/error', { error: error });
+      res.render('index/error', {
+        error: error,
+        user: req.cookies.user
+      });
     }
   });
 });
